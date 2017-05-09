@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+
 var server = express();
 var port = 3000;
 
@@ -9,6 +10,23 @@ var books = [{
   rating: 'mediocre',
   author: 'not me'
 }]
+
+//database area
+var mongoose = require('mongoose');
+var connectionString = 'mongodb://darryl:darryl@ds059125.mlab.com:59125/books'
+var connection = mongoose.connection;
+
+mongoose.connect(connectionString, {
+  server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
+});
+
+
+
+var CreateBook = mongoose.model('Book', { title: String, published: String, rating: String, author: String });
+
+var book = new CreateBook
+
 //Parses the request data into json
 //gives access to 'req.body'
 server.use(bodyParser.json())
@@ -36,6 +54,7 @@ server.get('/books/:id', function (req, res, next) {
   }
 })
 
+//add requests here
 server.post('/books', function (req, res, next) {
 
   var newBook = req.body
@@ -48,6 +67,7 @@ server.post('/books', function (req, res, next) {
   }
 })
 
+//edit requests here
 server.put('/books/:id', function (req, res, next) {
   var id = req.params.id
   var changeBook = req.body
@@ -60,12 +80,14 @@ server.put('/books/:id', function (req, res, next) {
   }
 })
 
-server.delete('/books/:id', function (req, res, next){
+//remove requests here
+server.delete('/books/:id', function (req, res, next) {
   var id = req.params.id
-  books.splice(id,1)
+  books.splice(id, 1)
   res.send('Book Deleted')
 })
 
+//ports server is listening on
 server.listen(port, function () {
   console.log("The server is working and listening for request on port: ", port)
 })
