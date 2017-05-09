@@ -13,15 +13,24 @@ var books = [{
 
 //database area
 var mongoose = require('mongoose');
-var connectionString = 'mongodb://darryl:darryl@ds059125.mlab.com:59125/books'
+var connectionstring = 'mongodb://darryl:darryl@ds059125.mlab.com:59125/books'
 var connection = mongoose.connection;
 
-mongoose.connect(connectionString, {
+mongoose.connect(connectionstring, {
   server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
   replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
 });
 
+connection.on('error', function (er) {
+  console.log('THERE WAS A CONNECTION PROBLEM', err)
+})
 
+connection.once('open', function () {
+  console.log('We are now connection to the books database')
+  server.listen(port, function () {
+    console.log("The server is working and listening for requests on port: ", 'http://localhost:' + port)
+  })
+})
 
 var CreateBook = mongoose.model('Book', { title: String, published: String, rating: String, author: String });
 
@@ -85,9 +94,4 @@ server.delete('/books/:id', function (req, res, next) {
   var id = req.params.id
   books.splice(id, 1)
   res.send('Book Deleted')
-})
-
-//ports server is listening on
-server.listen(port, function () {
-  console.log("The server is working and listening for request on port: ", port)
 })
