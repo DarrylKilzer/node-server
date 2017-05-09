@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+    <form onsubmit="app.controllers.bookController.addBookFromForm(e)">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input class="form-control" name="title" type="text">
+    </div>
+    <div class="form-group">
+      <label for="published">Published:</label>
+      <input class="form-control" name="published" type="text">
+    </div>
+    <div class="form-group">
+      <label for="rating">Rating:</label>
+      <input class="form-control" name="rating" type="text">
+    </div>
+    <div class="form-group">
+      <label for="author">author:</label>
+      <input class="form-control" name="author" type="text">
+    </div>
+    <button type="submit">Add Book</button>
+  </form>
+
+  </div>
+
+
+  <!--JS Libraries-->
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+  <!--Services-->
+  <script src="public/components/book-service.js"></script>
+  <!--Controllers-->
+  <script src="public/components/book-controller.js"></script>
+  <!--Initiliaze-->
+  <script src="public/components/init.js"></script>
+</body>
+
+</html>
