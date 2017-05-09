@@ -4,12 +4,14 @@ var bodyParser = require('body-parser');
 var server = express();
 var port = 3000;
 
-var books = [{
-  title: 'first book',
-  published: 'tomorrow',
-  rating: 'mediocre',
-  author: 'not me'
-}]
+var Schema = mongoose.Schema
+
+var Book = new Schema({ 
+  title: { type: String, required: true }, 
+  published: { type:String, required: true},
+  rating: { type: String, required: true },
+  author: { type:String, required: true } 
+});
 
 //database area
 var mongoose = require('mongoose');
@@ -31,10 +33,6 @@ connection.once('open', function () {
     console.log("The server is working and listening for requests on port: ", 'http://localhost:' + port)
   })
 })
-
-var CreateBook = mongoose.model('Book', { title: String, published: String, rating: String, author: String });
-
-var book = new CreateBook
 
 //Parses the request data into json
 //gives access to 'req.body'
@@ -65,6 +63,8 @@ server.get('/books/:id', function (req, res, next) {
 
 //add requests here
 server.post('/books', function (req, res, next) {
+
+  var book = new CreateBook
 
   var newBook = req.body
 
